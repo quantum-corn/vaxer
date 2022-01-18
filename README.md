@@ -2,6 +2,9 @@
 vaccination management system project for school!
 ## Using:
 - Python
+  - gui
+  - mySQL connectivity
+  - file handling
 - mySQL
 ## TODO:
 - [ ] database
