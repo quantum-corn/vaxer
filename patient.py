@@ -14,6 +14,9 @@ centre= StringVar()
 slot = StringVar()
 
 def get_primary():
+
+    mainframe.grid_remove()
+
     Label(root, text='We have registered your primary info!').grid(row=0, column=0)
     Label(root, text=name.get()).grid(row=1,column=0)
     Label(root, text=age.get()).grid(row=2,column=0)
@@ -21,6 +24,9 @@ def get_primary():
 
 def get_details():
     Label(root, text='You have completed your vaccination registration!').grid(row=0, column=0)
+
+    mainframe.grid_remove()
+    
     Label(root, text=type.get()).grid(row=1,column=0)
     Label(root, text=centre.get()).grid(row=2,column=0)
     Label(root, text=slot.get()).grid(row=3,column=0)
@@ -28,6 +34,8 @@ def get_details():
 def preliminary():
     fieldframe=Frame(mainframe)
     fieldframe.grid(row=2)
+
+    buttonframe.grid_remove()
 
     Label(fieldframe, text='Enter your name').grid(row=0, column=0)
     Entry(fieldframe, textvariable=name).grid(row=0, column= 1 )
@@ -40,6 +48,8 @@ def preliminary():
 def details():
     fieldframe=Frame(mainframe)
     fieldframe.grid(row=2)
+
+    buttonframe.grid_remove()
 
     Label(fieldframe, text='Which vaccine type would you like').grid(row=0, column=0)
     Entry(fieldframe, textvariable=type).grid(row=0, column= 1 )
