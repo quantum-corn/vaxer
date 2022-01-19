@@ -6,16 +6,23 @@ root.title('Vaxer')
 mainframe=Frame(root)
 mainframe.grid(column=0, row=0)
 
+def get_primary():
+    Label(root, text='We have registered your primary info!').grid(row=0, column=0)
+
+def get_details():
+    Label(root, text='You have completed your vaccination registration!').grid(row=0, column=0)
+
 def preliminary():
     fieldframe=Frame(mainframe)
     fieldframe.grid(row=2)
 
     Label(fieldframe, text='Enter your name').grid(row=0, column=0)
     name=Entry(fieldframe).grid(row=0, column= 1 )
-    Label(fieldframe,text='Enter your age').grid(row=1, column=0)
+    Label(fieldframe, text='Enter your age').grid(row=1, column=0)
     age=Entry(fieldframe).grid(row=1, column= 1 )
-    Label(fieldframe,text='Enter your gender').grid(row=2, column=0)
+    Label(fieldframe, text='Enter your gender').grid(row=2, column=0)
     gender=Entry(fieldframe).grid(row=2, column= 1 )
+    Button(fieldframe, text='Continue', command=get_primary).grid(row=3, column=1)
 
 def details():
     fieldframe=Frame(mainframe)
@@ -27,6 +34,7 @@ def details():
     centre=Entry(fieldframe).grid(row=1, column= 1 )
     Label(fieldframe, text='Which vaccination slot would you like').grid(row=2, column=0)
     Slot=Entry(fieldframe).grid(row=2, column= 1 )
+    Button(fieldframe, text='Continue', command=get_details).grid(row=3, column=1)
 
 
 Label(mainframe, text=' Welcome, kindly fill the form with the required details').grid(row=0)
