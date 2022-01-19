@@ -1,5 +1,5 @@
 import mysql.connector as sqldb
-db= sqldb.connect(host='localhost', user='ash', passwd='autobotsrollout', database='student')
+db= sqldb.connect(host='localhost', user='', passwd='', database='student')
 Executecursor=db.cursor()
 sqlquery="select * from student where name='anindita'"
 Executecursor.execute(sqlquery)
