@@ -51,7 +51,7 @@ def patient():
     Entry(entryframe).grid(row=0)
 
     Label(textframe, text="Password").grid(row=1)
-    Entry(entryframe).grid(row=1)
+    Entry(entryframe, show="\u2022").grid(row=1)
 
     Label(mainframe, text="New to Vaxer?").grid(row=2)
     Button(mainframe, text="Sign up", command=sign_up).grid(row=2, column=1)
