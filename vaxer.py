@@ -41,21 +41,11 @@ def patient():
 
     Label(mainframe, text="Welcome to Vaxer!").grid(row=0)
 
-    Label(mainframe, text="New to Vaxer?").grid(row=1)
-    Button(mainframe, text="Sign up", command=gateway('s')).grid(row=2)
-
-    Label(mainframe, text="Have an account?").grid(row=3)
-    Button(mainframe, text="Log in", command=gateway('l')).grid(row=4)
-
-# %% sign up and log in window
-def gateway(key):
-    clear(mainframe)
-
     textframe=Frame(mainframe)
-    textframe.grid(column=0, row=0)
+    textframe.grid(column=0, row=1)
 
     entryframe=Frame(mainframe)
-    entryframe.grid(column=1, row=0)
+    entryframe.grid(column=1, row=1)
 
     Label(textframe, text="Email").grid(row=0)
     Entry(entryframe).grid(row=0)
@@ -63,7 +53,11 @@ def gateway(key):
     Label(textframe, text="Password").grid(row=1)
     Entry(entryframe).grid(row=1)
 
-    Button(mainframe, text="Continue", command=sign_up if key=='s' else log_in).grid(row=1)
+    Label(mainframe, text="New to Vaxer?").grid(row=2)
+    Button(mainframe, text="Sign up", command=sign_up).grid(row=2, column=1)
+
+    Label(mainframe, text="Have an account?").grid(row=3)
+    Button(mainframe, text="Log in", command=log_in).grid(row=3, column=1)
 
 # %% Sign up System
 def sign_up():
@@ -73,8 +67,13 @@ def sign_up():
 def log_in():
     pass
 
+# %% Admin access
 def admin():
     pass
+
+
+
+
 
 greet()
 
