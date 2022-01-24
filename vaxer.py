@@ -23,6 +23,12 @@ def update():
             try:
                 data=pickle.load(table)
                 dataset=data.split()
+
+                if file=='vaccines.dat':
+                    cursor.execute('INSERT INTO vaccines (vacc_id, name, status) VALUES ({0}, {1}, {2});'.format(dataset[0], dataset[1], "'y'" if dataset[2]=='Available' else "'n'"))
+                else:
+                    cursor.execute('INSERT INTO centers (center_id, name, address, district, state, pincode) VALUES ({0}, {1}, {2}, {3}, {4}, {5});'.format(dataset[0], dataset[1], dataset[2], dataset[3], dataset[4], dataset[5]))
+
             except EOFError:
                 break
 
@@ -106,8 +112,8 @@ def register():
     Label(fieldframe, text='Which vaccine type would you like').grid(row=3, column=0)
     Entry(fieldframe, textvariable=type).grid(row=3, column= 1 )
 
-    Label(fieldframe, text='Which vaccination centre would you like').grid(row=4, column=0)
-    Entry(fieldframe, textvariable=centre).grid(row=4, column= 1 )
+    Label(fieldframe, text='Which vaccination center would you like').grid(row=4, column=0)
+    Entry(fieldframe, textvariable=center).grid(row=4, column= 1 )
 
     Label(fieldframe, text='Which vaccination slot would you like').grid(row=5, column=0)
     Entry(fieldframe, textvariable=slot).grid(row=5, column= 1 )
@@ -126,7 +132,7 @@ def admin():
 
 
 
-cursor.execute("SOURCE dbcreate.sql")
+cursor.execute('SOURCE dbcreate.sql')
 update()
 
 
