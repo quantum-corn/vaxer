@@ -7,13 +7,30 @@
 
 # %% imports
 from tkinter import *
-import pickle as pck
+import pickle
 import mysql.connector as sql
+
+# %% database connector
+db=sql.connect(host='localhost', user='ash', password='autobotsrollout')
+cursor=db.cursor()
+
+# %% update static data tables
+def update():
+    files=('vaccines.dat', 'centers.dat')
+    for file in files:
+        table=open(file, 'rb')
+        while True:
+            try:
+                data=pickle.load(table)
+                dataset=data.split()
+            except EOFError:
+                break
 
 # %% tkinter root
 root=Tk()
 root.title("Vaxer")
 
+# %% mainframe
 mainframe=Frame(root)
 mainframe.grid(column=0, row=0)
 
@@ -103,6 +120,16 @@ def fetch():
 # %% Admin access
 def admin():
     pass
+
+
+
+
+
+
+cursor.execute("SOURCE dbcreate.sql")
+update()
+
+
 
 
 

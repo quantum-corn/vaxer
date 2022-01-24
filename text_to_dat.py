@@ -1,5 +1,5 @@
 import pickle
-f=open('Vaccine type text.txt', 'r')
+f=open('vaccines_text.txt', 'r')
 f1=open('vaccines.dat', 'wb')
 rows=f.readlines()
 for row in rows:
