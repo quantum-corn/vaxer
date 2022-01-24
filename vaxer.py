@@ -41,17 +41,14 @@ def patient():
 
     Label(mainframe, text="Welcome to Vaxer!").grid(row=0)
 
-    textframe=Frame(mainframe)
-    textframe.grid(column=0, row=1)
+    fieldframe=Frame(mainframe)
+    fieldframe.grid(row=1)
 
-    entryframe=Frame(mainframe)
-    entryframe.grid(column=1, row=1)
+    Label(fieldframe, text="Email").grid(row=0)
+    Entry(fieldframe).grid(row=0, column=1)
 
-    Label(textframe, text="Email").grid(row=0)
-    Entry(entryframe).grid(row=0)
-
-    Label(textframe, text="Password").grid(row=1)
-    Entry(entryframe, show="\u2022").grid(row=1)
+    Label(fieldframe, text="Password").grid(row=1)
+    Entry(fieldframe, show="\u2022").grid(row=1, column=1)
 
     Label(mainframe, text="New to Vaxer?").grid(row=2)
     Button(mainframe, text="Sign up", command=sign_up).grid(row=2, column=1)
@@ -65,6 +62,42 @@ def sign_up():
 
 # %% Log_in System
 def log_in():
+    pass
+
+# %% Dashboard
+def dashboard():
+    pass
+
+# %% Register
+def register():
+    clear(mainframe)
+
+    Label(mainframe, text=' Welcome, kindly fill the form with the required details').grid(row=0)
+
+    fieldframe=Frame(mainframe)
+    fieldframe.grid(row=1)
+
+    Label(fieldframe, text='Enter your name').grid(row=0, column=0)
+    Entry(fieldframe, textvariable=name).grid(row=0, column= 1 )
+
+    Label(fieldframe, text='Enter your age').grid(row=1, column=0)
+    Entry(fieldframe, textvariable=age).grid(row=1, column= 1 )
+
+    Label(fieldframe, text='Enter your gender').grid(row=2, column=0)
+    Entry(fieldframe, textvariable=gender).grid(row=2, column= 1 )
+
+    Label(fieldframe, text='Which vaccine type would you like').grid(row=3, column=0)
+    Entry(fieldframe, textvariable=type).grid(row=3, column= 1 )
+
+    Label(fieldframe, text='Which vaccination centre would you like').grid(row=4, column=0)
+    Entry(fieldframe, textvariable=centre).grid(row=4, column= 1 )
+
+    Label(fieldframe, text='Which vaccination slot would you like').grid(row=5, column=0)
+    Entry(fieldframe, textvariable=slot).grid(row=5, column= 1 )
+
+    Button(fieldframe, text='Continue', command=fetch).grid(row=6, column=1)
+
+def fetch():
     pass
 
 # %% Admin access
