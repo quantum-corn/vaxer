@@ -92,6 +92,9 @@ def patient():
 email=StringVar()
 password=StringVar()
 
+#global user variable
+user=''
+
 # %% Sign up System
 def sign_up():
     id=email.get()
@@ -102,6 +105,7 @@ def sign_up():
     else:
         cursor.execute('INSERT INTO login (email, pass) VALUES ("{0}", "{1}");'.format(id, auth))
         db.commit()
+        user=id
         dashboard(id)
 
 # %% Log_in System
@@ -118,6 +122,7 @@ def log_in(id):
         if auth != row[0][1]:
             text.set("Incorrect password!")
         else:
+            user=id
             dashboard(id)
 
 
@@ -160,7 +165,7 @@ def register():
     Entry(fieldframe, textvariable=gender).grid(row=4, column= 1 )
 
     Label(fieldframe, text='Which vaccine type would you like').grid(row=3, column=0)
-    Entry(fieldframe, textvariable=type).grid(row=5, column= 1 )
+    Entry(fieldframe, textvariable=vaccine).grid(row=5, column= 1 )
 
     Label(fieldframe, text='Which vaccination center would you like').grid(row=4, column=0)
     Entry(fieldframe, textvariable=center).grid(row=6, column= 1 )
@@ -176,13 +181,17 @@ f_name= StringVar()
 l_name=StringVar()
 age= StringVar()
 gender= StringVar()
-type= StringVar()
+vaccine= StringVar()
 centre= StringVar()
 slot = StringVar()
 
 # %% registration processing
 def fetch():
-    pass
+    cursor.execute('INSERT INTO registration (uidai, first_name, last_name, age, gender, vaccine, centre, slot, email) VALUES ({0}, "{1}", "{2}", {3}, "{4}", {5}, {6}, "{7}", "{8}")'.format(uidai.get(), f_name.get(), l_name.get(), age.get(), gender.get(), vaccine.get(), center.get(), slot.get(), user))
+    db.commit()
+    clear(mainframe)
+    Label(mainframe, text='You have registered!').grid(row=0)
+    Button(mainframe, text='Show my data', command=show_my_details).grid(row=1)
 
 # %% Admin access
 def admin():
