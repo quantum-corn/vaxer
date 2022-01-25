@@ -49,9 +49,6 @@ root.title("Vaxer")
 mainframe=Frame(root)
 mainframe.grid(column=0, row=0)
 
-# %% restart button
-Button(root, text="Home", command=greet).grid(row=1)
-
 # %% clearing a window
 def clear(frame):
     for widget in frame.winfo_children():
@@ -83,7 +80,7 @@ def patient():
     Entry(fieldframe, textvariable=email).grid(row=0, column=1)
 
     Label(fieldframe, text="Password").grid(row=1)
-    Entry(fieldframe, ,textvariable=password, show="\u2022").grid(row=1, column=1)
+    Entry(fieldframe, textvariable=password, show="\u2022").grid(row=1, column=1)
 
     Label(mainframe, text="New to Vaxer?").grid(row=2)
     Button(mainframe, text="Sign up", command=sign_up).grid(row=2, column=1)
@@ -100,34 +97,43 @@ def sign_up():
     id=email.get()
     auth=password.get()
     cursor.execute('SELECT * FROM login WHERE email="{0}";'.format(id))
-    if cursor.fetchall() not [];
+    if cursor.fetchall() != []:
         Label(mainframe, text="E-mail already in use!").grid(row=4)
     else:
         cursor.execute('INSERT INTO login (email, pass) VALUES ("{0}", "{1}");'.format(id, auth))
         db.commit()
-        dashboard()
+        dashboard(id)
 
 # %% Log_in System
-def log_in():
+def log_in(id):
     id=email.get()
     auth=password.get()
     cursor.execute('SELECT * FROM login WHERE email="{0}";'.format(id))
     row=cursor.fetchall()
-    msg=Label(mainframe, text='').grid(row=4)
+    text=StringVar()
+    msg=Label(mainframe, textvariable=text).grid(row=4)
     if row==[]:
-        msg.destroy()
-        msg=Label(mainframe, text="Incorrect E-mail!").grid(row=4)
+        text.set("Incorrect E-mail!")
     else:
-        if pass not row[0][1]:
-            msg.destroy()
-            msg=Label(mainframe, text="Incorrect password!").grid(row=4)
+        if auth != row[0][1]:
+            text.set("Incorrect password!")
         else:
-            dashboard()
+            dashboard(id)
 
 
 # %% Dashboard
-def dashboard():
-    pass
+def dashboard(id):
+    clear(mainframe)
+    cursor.execute('SELECT * FROM registration WHERE email={0};'.format(id))
+    result=cursor.fetchall()
+    if result==[]:
+        Button(fieldframe, text='Register yourself', command=register).grid(row=0)
+    else:
+        Button(fieldframe, text='Show my details', command=pass).grid(row=0)
+
+def show_my_details():
+    cursor.execute('SELECT * FROM registration')
+
 
 # %% Register
 def register():
@@ -138,25 +144,31 @@ def register():
     fieldframe=Frame(mainframe)
     fieldframe.grid(row=1)
 
-    Label(fieldframe, text='Enter your name').grid(row=0, column=0)
-    Entry(fieldframe, textvariable=name).grid(row=0, column= 1 )
+    Label(fieldframe, text='Enter your first name').grid(row=0, column=0)
+    Entry(fieldframe, textvariable=f_name).grid(row=0, column= 1 )
+
+    Label(fieldframe, text='Enter your last name').grid(row=0, column=0)
+    Entry(fieldframe, textvariable=l_name).grid(row=1, column= 1 )
+
+    Label(fieldframe, text='Enter your Aadhar number').grid(row=0, column=0)
+    Entry(fieldframe, textvariable=uidai).grid(row=2, column= 1 )
 
     Label(fieldframe, text='Enter your age').grid(row=1, column=0)
-    Entry(fieldframe, textvariable=age).grid(row=1, column= 1 )
+    Entry(fieldframe, textvariable=age).grid(row=3, column= 1 )
 
     Label(fieldframe, text='Enter your gender').grid(row=2, column=0)
-    Entry(fieldframe, textvariable=gender).grid(row=2, column= 1 )
+    Entry(fieldframe, textvariable=gender).grid(row=4, column= 1 )
 
     Label(fieldframe, text='Which vaccine type would you like').grid(row=3, column=0)
-    Entry(fieldframe, textvariable=type).grid(row=3, column= 1 )
+    Entry(fieldframe, textvariable=type).grid(row=5, column= 1 )
 
     Label(fieldframe, text='Which vaccination center would you like').grid(row=4, column=0)
-    Entry(fieldframe, textvariable=center).grid(row=4, column= 1 )
+    Entry(fieldframe, textvariable=center).grid(row=6, column= 1 )
 
     Label(fieldframe, text='Which vaccination slot would you like').grid(row=5, column=0)
-    Entry(fieldframe, textvariable=slot).grid(row=5, column= 1 )
+    Entry(fieldframe, textvariable=slot).grid(row=7, column= 1 )
 
-    Button(fieldframe, text='Continue', command=fetch).grid(row=6, column=1)
+    Button(fieldframe, text='Continue', command=fetch).grid(row=8, column=1)
 
 # %% global variables for registration
 uidai=StringVar()
@@ -180,6 +192,8 @@ def admin():
 
 
 
+# %% restart button
+Button(root, text="Home", command=greet).grid(row=1)
 
 createdb()
 update()
