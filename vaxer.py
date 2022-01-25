@@ -134,10 +134,31 @@ def dashboard(id):
     if result==[]:
         Button(fieldframe, text='Register yourself', command=register).grid(row=0)
     else:
-        Button(fieldframe, text='Show my details', command=pass).grid(row=0)
+        Button(fieldframe, text='Show my details', command=show_my_details).grid(row=0)
 
 def show_my_details():
-    cursor.execute('SELECT * FROM registration')
+    cursor.execute('SELECT * FROM registration WHERE email={0};'.format(id))
+    result=cursor.fetchall()
+    clear(mainframe)
+    Lf=(mainframe, text='First Name').grid(column=0, row=0)
+    Label(LabelFrame, text=result[0][0])
+    Lf=(mainframe, text='First Name').grid(column=0, row=1)
+    Label(LabelFrame, text=result[0][0])
+    Lf=(mainframe, text='Last Name').grid(column=0, row=2)
+    Label(LabelFrame, text=result[0][1])
+    Lf=(mainframe, text='Age').grid(column=0, row=3)
+    Label(LabelFrame, text=result[0][2])
+    Lf=(mainframe, text='Gender').grid(column=0, row=4)
+    Label(LabelFrame, text=result[0][3])
+    Lf=(mainframe, text='Vaccine Type').grid(column=0, row=5)
+    Label(LabelFrame, text=result[0][4])
+    Lf=(mainframe, text='Center').grid(column=0, row=6)
+    Label(LabelFrame, text=result[0][5])
+    Lf=(mainframe, text='Slot').grid(column=0, row=7)
+    Label(LabelFrame, text=result[0][6])
+    Lf=(mainframe, text='Email').grid(column=0, row=8)
+    Label(LabelFrame, text=result[0][7])
+
 
 
 # %% Register
