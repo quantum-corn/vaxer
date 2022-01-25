@@ -49,6 +49,9 @@ root.title("Vaxer")
 mainframe=Frame(root)
 mainframe.grid(column=0, row=0)
 
+# %% restart button
+Button(root, text="Home", command=greet).grid(row=1)
+
 # %% clearing a window
 def clear(frame):
     for widget in frame.winfo_children():
@@ -77,10 +80,10 @@ def patient():
     fieldframe.grid(row=1)
 
     Label(fieldframe, text="Email").grid(row=0)
-    Entry(fieldframe).grid(row=0, column=1)
+    Entry(fieldframe, textvariable=email).grid(row=0, column=1)
 
     Label(fieldframe, text="Password").grid(row=1)
-    Entry(fieldframe, show="\u2022").grid(row=1, column=1)
+    Entry(fieldframe, ,textvariable=password, show="\u2022").grid(row=1, column=1)
 
     Label(mainframe, text="New to Vaxer?").grid(row=2)
     Button(mainframe, text="Sign up", command=sign_up).grid(row=2, column=1)
@@ -88,13 +91,39 @@ def patient():
     Label(mainframe, text="Have an account?").grid(row=3)
     Button(mainframe, text="Log in", command=log_in).grid(row=3, column=1)
 
+# %% global log-in credentials
+email=StringVar()
+password=StringVar()
+
 # %% Sign up System
 def sign_up():
-    pass
+    id=email.get()
+    auth=password.get()
+    cursor.execute('SELECT * FROM login WHERE email="{0}";'.format(id))
+    if cursor.fetchall() not [];
+        Label(mainframe, text="E-mail already in use!").grid(row=4)
+    else:
+        cursor.execute('INSERT INTO login (email, pass) VALUES ("{0}", "{1}");'.format(id, auth))
+        db.commit()
+        dashboard()
 
 # %% Log_in System
 def log_in():
-    pass
+    id=email.get()
+    auth=password.get()
+    cursor.execute('SELECT * FROM login WHERE email="{0}";'.format(id))
+    row=cursor.fetchall()
+    msg=Label(mainframe, text='').grid(row=4)
+    if row==[]:
+        msg.destroy()
+        msg=Label(mainframe, text="Incorrect E-mail!").grid(row=4)
+    else:
+        if pass not row[0][1]:
+            msg.destroy()
+            msg=Label(mainframe, text="Incorrect password!").grid(row=4)
+        else:
+            dashboard()
+
 
 # %% Dashboard
 def dashboard():
@@ -129,6 +158,17 @@ def register():
 
     Button(fieldframe, text='Continue', command=fetch).grid(row=6, column=1)
 
+# %% global variables for registration
+uidai=StringVar()
+f_name= StringVar()
+l_name=StringVar()
+age= StringVar()
+gender= StringVar()
+type= StringVar()
+centre= StringVar()
+slot = StringVar()
+
+# %% registration processing
 def fetch():
     pass
 

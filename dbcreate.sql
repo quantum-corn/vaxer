@@ -1,9 +1,9 @@
 CREATE DATABASE vaxer;
 USE vaxer;
 # for patient to login
-CREATE TABLE login (email VARCHAR(50) PRIMARY KEY, password VARCHAR(25));
+CREATE TABLE login (email VARCHAR(50) PRIMARY KEY, pass VARCHAR(25));
 # for patient to register for the vaccination
-CREATE TABLE registration(uidai BIGINT PRIMARY KEY, first_name VARCHAR(25), last_name VARCHAR(25), age INT, gender ENUM('M','F'), type INT, centre INT, slot ENUM('1', '2', '3', '4'), email VARCHAR(50));
+CREATE TABLE registration(uidai BIGINT PRIMARY KEY, first_name VARCHAR(25), last_name VARCHAR(25), age INT, gender ENUM('M','F'), vaccine INT, centre INT, slot ENUM('1', '2', '3', '4'), email VARCHAR(50));
 # a list of vaccine options
 CREATE TABLE vaccines(vacc_id INT PRIMARY KEY, name VARCHAR(25), status ENUM('y', 'n'));
 # a list of vaccination centers
