@@ -109,7 +109,7 @@ def sign_up():
         dashboard(id)
 
 # %% Log_in System
-def log_in(id):
+def log_in():
     id=email.get()
     auth=password.get()
     cursor.execute('SELECT * FROM login WHERE email="{0}";'.format(id))
@@ -129,35 +129,35 @@ def log_in(id):
 # %% Dashboard
 def dashboard(id):
     clear(mainframe)
-    cursor.execute('SELECT * FROM registration WHERE email={0};'.format(id))
+    cursor.execute('SELECT * FROM registration WHERE email="{0}";'.format(id))
     result=cursor.fetchall()
     if result==[]:
-        Button(fieldframe, text='Register yourself', command=register).grid(row=0)
+        Button(mainframe, text='Register yourself', command=register).grid(row=0)
     else:
-        Button(fieldframe, text='Show my details', command=show_my_details).grid(row=0)
+        Button(mainframe, text='Show my details', command=show_my_details).grid(row=0)
 
 def show_my_details():
-    cursor.execute('SELECT * FROM registration WHERE email={0};'.format(id))
+    cursor.execute('SELECT * FROM registration WHERE email="{0}";'.format(id))
     result=cursor.fetchall()
     clear(mainframe)
-    Lf=(mainframe, text='First Name').grid(column=0, row=0)
-    Label(LabelFrame, text=result[0][0])
-    Lf=(mainframe, text='First Name').grid(column=0, row=1)
-    Label(LabelFrame, text=result[0][0])
-    Lf=(mainframe, text='Last Name').grid(column=0, row=2)
-    Label(LabelFrame, text=result[0][1])
-    Lf=(mainframe, text='Age').grid(column=0, row=3)
-    Label(LabelFrame, text=result[0][2])
-    Lf=(mainframe, text='Gender').grid(column=0, row=4)
-    Label(LabelFrame, text=result[0][3])
-    Lf=(mainframe, text='Vaccine Type').grid(column=0, row=5)
-    Label(LabelFrame, text=result[0][4])
-    Lf=(mainframe, text='Center').grid(column=0, row=6)
-    Label(LabelFrame, text=result[0][5])
-    Lf=(mainframe, text='Slot').grid(column=0, row=7)
-    Label(LabelFrame, text=result[0][6])
-    Lf=(mainframe, text='Email').grid(column=0, row=8)
-    Label(LabelFrame, text=result[0][7])
+    Lf=LabelFrame(mainframe, text='Aadhar Number').grid(column=0, row=0)
+    Label(Lf, text=result[0][0])
+    Lf=LabelFrame(mainframe, text='First Name').grid(column=0, row=1)
+    Label(Lf, text=result[0][1])
+    Lf=LabelFrame(mainframe, text='Last Name').grid(column=0, row=2)
+    Label(Lf, text=result[0][2])
+    Lf=LabelFrame(mainframe, text='Age').grid(column=0, row=3)
+    Label(Lf, text=result[0][3])
+    Lf=LabelFrame(mainframe, text='Gender').grid(column=0, row=4)
+    Label(Lf, text=result[0][4])
+    Lf=LabelFrame(mainframe, text='Vaccine Type').grid(column=0, row=5)
+    Label(Lf, text=result[0][5])
+    Lf=LabelFrame(mainframe, text='Center').grid(column=0, row=6)
+    Label(Lf, text=result[0][6])
+    Lf=LabelFrame(mainframe, text='Slot').grid(column=0, row=7)
+    Label(Lf, text=result[0][7])
+    Lf=LabelFrame(mainframe, text='Email').grid(column=0, row=8)
+    Label(Lf, text=result[0][8])
 
 
 
