@@ -175,28 +175,44 @@ def register():
     Label(fieldframe, text='Enter your first name').grid(row=0, column=0)
     Entry(fieldframe, textvariable=f_name).grid(row=0, column= 1 )
 
-    Label(fieldframe, text='Enter your last name').grid(row=0, column=0)
+    Label(fieldframe, text='Enter your last name').grid(row=1, column=0)
     Entry(fieldframe, textvariable=l_name).grid(row=1, column= 1 )
 
-    Label(fieldframe, text='Enter your Aadhar number').grid(row=0, column=0)
+    Label(fieldframe, text='Enter your Aadhar number').grid(row=2, column=0)
     Entry(fieldframe, textvariable=uidai).grid(row=2, column= 1 )
 
-    Label(fieldframe, text='Enter your age').grid(row=1, column=0)
-    Entry(fieldframe, textvariable=age).grid(row=3, column= 1 )
+    Label(fieldframe, text='Enter your age').grid(row=3, column=0)
+    Scale(fieldframe, from_=0, to=100, variable=age, orient=HORIZONTAL).grid(row=3, column=1)
 
-    Label(fieldframe, text='Enter your gender').grid(row=2, column=0)
-    Entry(fieldframe, textvariable=gender).grid(row=4, column= 1 )
+    Label(fieldframe, text='Enter your gender').grid(row=4, column=0)
+    Radiobutton(fieldframe, text="Male", textvariable=gender, value='M').grid(row=4,column=1)
+    Radiobutton(fieldframe, text="Female", textvariable=gender, value='F').grid(row=5, column=1)
 
-    Label(fieldframe, text='Which vaccine type would you like').grid(row=3, column=0)
-    Entry(fieldframe, textvariable=vaccine).grid(row=5, column= 1 )
+    Label(fieldframe, text='Which vaccine type would you like').grid(row=6, column=0)
+    cursor.execute('SELECT name FROM vaccines WHERE status="Y"')
+    result=cursor.fetchall()
+    options=[]
+    vaccine.set("Choose the vaccine")
+    for item in result:
+        options.append(item[0])
+    OptionMenu(fieldframe, vaccine, *options).grid(row=6, column= 1)
 
-    Label(fieldframe, text='Which vaccination center would you like').grid(row=4, column=0)
-    Entry(fieldframe, textvariable=center).grid(row=6, column= 1 )
+    Label(fieldframe, text='Which vaccination center would you like').grid(row=7, column=0)
+    cursor.execute('SELECT name, address, pincode FROM centers')
+    result=cursor.fetchall()
+    options=[]
+    center.set("Choose the center")
+    for item in result:
+        options.append(item[0]+'\n'+item[1]+'\n'+str(item[2]))
+    OptionMenu(fieldframe, center, *options).grid(row=7, column= 1)
 
-    Label(fieldframe, text='Which vaccination slot would you like').grid(row=5, column=0)
-    Entry(fieldframe, textvariable=slot).grid(row=7, column= 1 )
+    Label(fieldframe, text='Which vaccination slot would you like').grid(row=8, column=0)
+    Radiobutton(fieldframe, text="9:00AM - 11:00AM", textvariable=slot, value='1').grid(row=8, column= 1 )
+    Radiobutton(fieldframe, text="11:00AM - 1:00PM", textvariable=slot, value='2').grid(row=9, column= 1 )
+    Radiobutton(fieldframe, text="1:00PM - 3:00PM", textvariable=slot, value='3').grid(row=10, column= 1 )
+    Radiobutton(fieldframe, text="3:00PM - 5:00PM", textvariable=slot, value='4').grid(row=11, column= 1 )
 
-    Button(fieldframe, text='Continue', command=fetch).grid(row=8, column=1)
+    Button(fieldframe, text='Continue', command=fetch).grid(row=12, column=1)
 
 # %% global variables for registration
 uidai=StringVar()
@@ -205,12 +221,16 @@ l_name=StringVar()
 age= StringVar()
 gender= StringVar()
 vaccine= StringVar()
-centre= StringVar()
+center= StringVar()
 slot = StringVar()
 
 # %% registration processing
 def fetch():
-    cursor.execute('INSERT INTO registration VALUES ({0}, "{1}", "{2}", {3}, "{4}", {5}, {6}, "{7}", "{8}")'.format(uidai.get(), f_name.get(), l_name.get(), age.get(), gender.get(), vaccine.get(), center.get(), slot.get(), user))
+    cursor.execute('SELECT vacc_id FROM vaccines WHERE name="{0}"'.format(vaccine.get()))
+    vacc=cursor.fetchall()[0][0]
+    cursor.execute('SELECT centre_id FROM centers WHERE CONCAT_WS(CHAR(10 USING UTF8), name, address, pincode)="{0}"'.format(center.get()))
+    cent=cursor.fetchall()[0][0]
+    cursor.execute('INSERT INTO registration VALUES ({0}, "{1}", "{2}", {3}, "{4}", {5}, {6}, "{7}", "{8}")'.format(uidai.get(), f_name.get(), l_name.get(), age.get(), gender.get(), vacc, cent, slot.get(), user))
     db.commit()
     clear(mainframe)
     Label(mainframe, text='You have registered!').grid(row=0)
@@ -231,6 +251,6 @@ createdb()
 update()
 greet()
 
-root.mainloop()
+mainloop()
 
 db.close()
