@@ -19,8 +19,7 @@ def createdb():
     source=open('dbcreate.sql')
     lines=source.readlines()
     for line in lines:
-        if line[0]!='#':
-            cursor.execute(line)
+        cursor.execute(line)
 
 # %% update static data tables
 def update():
@@ -31,10 +30,13 @@ def update():
             try:
                 data=pickle.load(table)
 
-                if file=='vaccines.dat':
-                    cursor.execute('INSERT INTO vaccines (vacc_id, name, status) VALUES ({0}, "{1}", "{2}");'.format(data[0], data[1], 'y' if data[2]=='Available' else 'n'))
-                else:
-                    cursor.execute('INSERT INTO centers (center_id, name, address, district, state, pincode) VALUES ({0}, "{1}", "{2}", "{3}", "{4}", {5});'.format(data[0], data[1], data[2], data[3], data[4], data[5]))
+                try:
+                    if file=='vaccines.dat':
+                        cursor.execute('INSERT INTO vaccines VALUES ({0}, "{1}", "{2}");'.format(data[0], data[1], 'Y' if data[2]=='Available' else 'N'))
+                    else:
+                        cursor.execute('INSERT INTO centers VALUES ({0}, "{1}", "{2}", "{3}", "{4}", {5});'.format(data[0], data[1], data[2], data[3], data[4], data[5]))
+                except sql.errors.IntegrityError:
+                    pass
 
             except EOFError:
                 break
@@ -103,7 +105,7 @@ def sign_up():
     if cursor.fetchall() != []:
         Label(mainframe, text="E-mail already in use!").grid(row=4)
     else:
-        cursor.execute('INSERT INTO login (email, pass) VALUES ("{0}", "{1}");'.format(id, auth))
+        cursor.execute('INSERT INTO login VALUES ("{0}", "{1}");'.format(id, auth))
         db.commit()
         user=id
         dashboard(id)
@@ -208,7 +210,7 @@ slot = StringVar()
 
 # %% registration processing
 def fetch():
-    cursor.execute('INSERT INTO registration (uidai, first_name, last_name, age, gender, vaccine, centre, slot, email) VALUES ({0}, "{1}", "{2}", {3}, "{4}", {5}, {6}, "{7}", "{8}")'.format(uidai.get(), f_name.get(), l_name.get(), age.get(), gender.get(), vaccine.get(), center.get(), slot.get(), user))
+    cursor.execute('INSERT INTO registration VALUES ({0}, "{1}", "{2}", {3}, "{4}", {5}, {6}, "{7}", "{8}")'.format(uidai.get(), f_name.get(), l_name.get(), age.get(), gender.get(), vaccine.get(), center.get(), slot.get(), user))
     db.commit()
     clear(mainframe)
     Label(mainframe, text='You have registered!').grid(row=0)
