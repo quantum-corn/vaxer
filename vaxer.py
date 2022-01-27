@@ -95,10 +95,11 @@ email=StringVar()
 password=StringVar()
 
 #global user variable
-user=''
+id=''
 
 # %% Sign up System
 def sign_up():
+    global id
     id=email.get()
     auth=password.get()
     cursor.execute('SELECT * FROM login WHERE email="{0}";'.format(id))
@@ -107,11 +108,11 @@ def sign_up():
     else:
         cursor.execute('INSERT INTO login VALUES ("{0}", "{1}");'.format(id, auth))
         db.commit()
-        user=id
-        dashboard(id)
+        dashboard()
 
 # %% Log_in System
 def log_in():
+    global id
     id=email.get()
     auth=password.get()
     cursor.execute('SELECT * FROM login WHERE email="{0}";'.format(id))
@@ -124,101 +125,94 @@ def log_in():
         if auth != row[0][1]:
             text.set("Incorrect password!")
         else:
-            user=id
-            dashboard(id)
+            dashboard()
 
 
 # %% Dashboard
-def dashboard(id):
+def dashboard():
     clear(mainframe)
+    Label(mainframe, text='Welcome '+id).grid(row=0)
     cursor.execute('SELECT * FROM registration WHERE email="{0}";'.format(id))
     result=cursor.fetchall()
     if result==[]:
-        Button(mainframe, text='Register yourself', command=register).grid(row=0)
+        Button(mainframe, text='Register yourself', command=register).grid(row=1)
     else:
-        Button(mainframe, text='Show my details', command=show_my_details).grid(row=0)
+        Button(mainframe, text='Show my details', command=show_my_details).grid(row=1)
 
 def show_my_details():
-    cursor.execute('SELECT * FROM registration WHERE email="{0}";'.format(id))
+    cursor.execute('SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.name, centers.address, centers.district,  centers.state, centers.pincode, slot FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE email="{0}";'.format(id))
     result=cursor.fetchall()
     clear(mainframe)
-    Lf=LabelFrame(mainframe, text='Aadhar Number').grid(column=0, row=0)
-    Label(Lf, text=result[0][0])
-    Lf=LabelFrame(mainframe, text='First Name').grid(column=0, row=1)
-    Label(Lf, text=result[0][1])
-    Lf=LabelFrame(mainframe, text='Last Name').grid(column=0, row=2)
-    Label(Lf, text=result[0][2])
-    Lf=LabelFrame(mainframe, text='Age').grid(column=0, row=3)
-    Label(Lf, text=result[0][3])
-    Lf=LabelFrame(mainframe, text='Gender').grid(column=0, row=4)
-    Label(Lf, text=result[0][4])
-    Lf=LabelFrame(mainframe, text='Vaccine Type').grid(column=0, row=5)
-    Label(Lf, text=result[0][5])
-    Lf=LabelFrame(mainframe, text='Center').grid(column=0, row=6)
-    Label(Lf, text=result[0][6])
-    Lf=LabelFrame(mainframe, text='Slot').grid(column=0, row=7)
-    Label(Lf, text=result[0][7])
-    Lf=LabelFrame(mainframe, text='Email').grid(column=0, row=8)
-    Label(Lf, text=result[0][8])
 
+    list=['Aadhar Number', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine Type']
+    i=0
 
+    for item in list:
+        Lf=LabelFrame(mainframe, text=item)
+        L=Label(Lf, text=result[0][i])
+        Lf.grid(column=0, row=i)
+        L.grid()
+        i+=1
+
+    Lf=LabelFrame(mainframe, text='Vaccination Center')
+    L=Label(Lf, text=result[0][6]+'\n'+result[0][7]+'\n'+result[0][8]+'\n'+result[0][9]+'-'+str(result[0][10]))
+    Lf.grid(column=0, row=6)
+    L.grid()
+
+    Lf=LabelFrame(mainframe, text='Vaccination Timeslot')
+    r=int(result[0][11])-1
+    L=Label(Lf, text='{0}:00-{1}:00'.format(9+2*r,11+2*r))
+    Lf.grid(column=0, row=7)
+    L.grid()
 
 # %% Register
 def register():
     clear(mainframe)
 
-    Label(mainframe, text=' Welcome, kindly fill the form with the required details').grid(row=0)
+    Label(mainframe, text=' Welcome {0}, kindly fill the form with the required details'.format(id)).grid(row=0)
 
     fieldframe=Frame(mainframe)
     fieldframe.grid(row=1)
 
-    Label(fieldframe, text='Enter your first name').grid(row=0, column=0)
+    list=['first name', 'last name', 'Aadhar number', 'age', 'gender', 'choice of vaccine', 'preferred vaccination center', 'preferred vaccination slot']
+    i=0
+
+    for item in list:
+        Label(fieldframe, text='Enter your '+item).grid(row=i, column=0)
+        i+=1
+
     Entry(fieldframe, textvariable=f_name).grid(row=0, column= 1 )
-
-    Label(fieldframe, text='Enter your last name').grid(row=1, column=0)
     Entry(fieldframe, textvariable=l_name).grid(row=1, column= 1 )
-
-    Label(fieldframe, text='Enter your Aadhar number').grid(row=2, column=0)
     Entry(fieldframe, textvariable=uidai).grid(row=2, column= 1 )
-
-    Label(fieldframe, text='Enter your age').grid(row=3, column=0)
     Scale(fieldframe, from_=0, to=100, variable=age, orient=HORIZONTAL).grid(row=3, column=1)
-
-    Label(fieldframe, text='Enter your gender').grid(row=4, column=0)
-    Radiobutton(fieldframe, text="Male", textvariable=gender, value='M').grid(row=4,column=1)
-    Radiobutton(fieldframe, text="Female", textvariable=gender, value='F').grid(row=5, column=1)
-
-    Label(fieldframe, text='Which vaccine type would you like').grid(row=6, column=0)
+    Radiobutton(fieldframe, text="Male", variable=gender, value='M').grid(row=4,column=1)
+    Radiobutton(fieldframe, text="Female", variable=gender, value='F').grid(row=4, column=2)
     cursor.execute('SELECT name FROM vaccines WHERE status="Y"')
     result=cursor.fetchall()
     options=[]
     vaccine.set("Choose the vaccine")
     for item in result:
         options.append(item[0])
-    OptionMenu(fieldframe, vaccine, *options).grid(row=6, column= 1)
-
-    Label(fieldframe, text='Which vaccination center would you like').grid(row=7, column=0)
+    OptionMenu(fieldframe, vaccine, *options).grid(row=5, column= 1)
     cursor.execute('SELECT name, address, pincode FROM centers')
     result=cursor.fetchall()
     options=[]
     center.set("Choose the center")
     for item in result:
         options.append(item[0]+'\n'+item[1]+'\n'+str(item[2]))
-    OptionMenu(fieldframe, center, *options).grid(row=7, column= 1)
-
-    Label(fieldframe, text='Which vaccination slot would you like').grid(row=8, column=0)
-    Radiobutton(fieldframe, text="9:00AM - 11:00AM", textvariable=slot, value='1').grid(row=8, column= 1 )
-    Radiobutton(fieldframe, text="11:00AM - 1:00PM", textvariable=slot, value='2').grid(row=9, column= 1 )
-    Radiobutton(fieldframe, text="1:00PM - 3:00PM", textvariable=slot, value='3').grid(row=10, column= 1 )
-    Radiobutton(fieldframe, text="3:00PM - 5:00PM", textvariable=slot, value='4').grid(row=11, column= 1 )
-
-    Button(fieldframe, text='Continue', command=fetch).grid(row=12, column=1)
+    OptionMenu(fieldframe, center, *options).grid(row=6, column= 1)
+    list=[("9:00AM - 11:00AM", '1'), ("11:00AM - 1:00PM", '2'), ("1:00PM - 3:00PM", '3'), ("3:00PM - 5:00PM", '4')]
+    i=7
+    for (item, value) in list:
+        Radiobutton(fieldframe, text=item, variable=slot, value=value).grid(row=i, column= 1 )
+        i+=1
+    Button(fieldframe, text='Continue', command=fetch).grid(row=11, column=1)
 
 # %% global variables for registration
 uidai=StringVar()
 f_name= StringVar()
 l_name=StringVar()
-age= StringVar()
+age= IntVar()
 gender= StringVar()
 vaccine= StringVar()
 center= StringVar()
@@ -228,13 +222,11 @@ slot = StringVar()
 def fetch():
     cursor.execute('SELECT vacc_id FROM vaccines WHERE name="{0}"'.format(vaccine.get()))
     vacc=cursor.fetchall()[0][0]
-    cursor.execute('SELECT centre_id FROM centers WHERE CONCAT_WS(CHAR(10 USING UTF8), name, address, pincode)="{0}"'.format(center.get()))
+    cursor.execute('SELECT center_id FROM centers WHERE CONCAT_WS(CHAR(10 USING UTF8), name, address, pincode)="{0}"'.format(center.get()))
     cent=cursor.fetchall()[0][0]
-    cursor.execute('INSERT INTO registration VALUES ({0}, "{1}", "{2}", {3}, "{4}", {5}, {6}, "{7}", "{8}")'.format(uidai.get(), f_name.get(), l_name.get(), age.get(), gender.get(), vacc, cent, slot.get(), user))
+    cursor.execute('INSERT INTO registration VALUES ({0}, "{1}", "{2}", {3}, "{4}", {5}, {6}, "{7}", "{8}")'.format(uidai.get(), f_name.get(), l_name.get(), age.get(), gender.get(), vacc, cent, slot.get(), id))
     db.commit()
-    clear(mainframe)
-    Label(mainframe, text='You have registered!').grid(row=0)
-    Button(mainframe, text='Show my data', command=show_my_details).grid(row=1)
+    dashboard()
 
 # %% Admin access
 def admin():
