@@ -46,9 +46,12 @@ def update():
 # %% tkinter root
 root=Tk()
 root.title("Vaxer")
-
+root.geometry("500x500")
+root.configure(bg="grey")
+    
 # %% mainframe
-mainframe=Frame(root)
+mainframe=Frame(root, bg="yellow", borderwidth= 15)
+
 mainframe.grid(column=0, row=0)
 
 # %% clearing a window
@@ -66,8 +69,8 @@ def greet():
     buttonframe=Frame(mainframe)
     buttonframe.grid(row=2)
 
-    Button(buttonframe, text="Patient", command=patient).grid(column=0, row=0)
-    Button(buttonframe, text="Administrator", command=admin).grid(column=1, row=0)
+    Button(buttonframe, text="Patient", command=patient, padx=30, pady=5, bg="cyan").grid(column=0, row=0)
+    Button(buttonframe, text="Administrator", command=admin, padx=30, pady=5, bg="cyan" ).grid(column=1, row=0)
 
 # %% Patient greet window
 def patient():
