@@ -247,39 +247,39 @@ def verify():
 def verified():
     pass
 
-    Label(mainframe, text="What are the fields you want to filter your search by?")
-    list=['Aadhar Number', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine Type']
-    i=0
-    for item in list:
-        Label(mainframe, text=item).grid(row=i, column=0)
-        i+=1
+#     Label(mainframe, text="What are the fields you want to filter your search by?")
+#     list=['Aadhar Number', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine Type']
+#     i=0
+#     for item in list:
+#         Label(mainframe, text=item).grid(row=i, column=0)
+#         i+=1
+#
+#     display()
+#
+#
+#     cursor.execute('SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.name, centers.address, centers.district,  centers.state, centers.pincode, slot FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE email="{0}";'.format(id))
+#     result=cursor.fetchall()
+#
+#
+#
+#     Lf=LabelFrame(mainframe, text='Vaccination Center')
+#     L=Label(Lf, text=result[0][6]+'\n'+result[0][7]+'\n'+result[0][8]+'\n'+result[0][9]+'-'+str(result[0][10]))
+#     Lf.grid(column=0, row=6)
+#     L.grid()
+#
+#     Lf=LabelFrame(mainframe, text='Vaccination Timeslot')
+#     r=int(result[0][11])-1
+#     L=Label(Lf, text='{0}:00-{1}:00'.format(9+2*r,11+2*r))
+#     Lf.grid(column=0, row=7)
+#     L.grid()
+#
+# # %% display the records
+# def display():
+#     cursor.execute('SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.name, centers.address, centers.district,  centers.state, centers.pincode, slot FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE email="{0}";'.format(id))
+#     result=cursor.fetchall()
+#     r=int(result[0][11])-1
+#     time='{0}:00-{1}:00'.format(9+2*r,11+2*r)
 
-    display()
-
-
-    cursor.execute('SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.name, centers.address, centers.district,  centers.state, centers.pincode, slot FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE email="{0}";'.format(id))
-    result=cursor.fetchall()
-
-
-
-    Lf=LabelFrame(mainframe, text='Vaccination Center')
-    L=Label(Lf, text=result[0][6]+'\n'+result[0][7]+'\n'+result[0][8]+'\n'+result[0][9]+'-'+str(result[0][10]))
-    Lf.grid(column=0, row=6)
-    L.grid()
-
-    Lf=LabelFrame(mainframe, text='Vaccination Timeslot')
-    r=int(result[0][11])-1
-    L=Label(Lf, text='{0}:00-{1}:00'.format(9+2*r,11+2*r))
-    Lf.grid(column=0, row=7)
-    L.grid()
-
-# %% display the records
-def display():
-    cursor.execute('SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.name, centers.address, centers.district,  centers.state, centers.pincode, slot FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE email="{0}";'.format(id))
-    result=cursor.fetchall()
-    r=int(result[0][11])-1
-    time='{0}:00-{1}:00'.format(9+2*r,11+2*r)
-    
 
 
 
