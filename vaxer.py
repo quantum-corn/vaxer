@@ -11,7 +11,7 @@ import pickle
 import mysql.connector as sql
 
 # %% database connector
-db=sql.connect(host='localhost', user='root', password='a1b1c1')
+db=sql.connect(host='localhost', user='ash', password='autobotsrollout')
 cursor=db.cursor()
 
 # %% create the database
@@ -47,7 +47,7 @@ def update():
 root=Tk()
 root.title("Vaxer")
 root.geometry("500x500")
-root.configure(bg= "ghost white")   
+root.configure(bg= "ghost white")
 # %% mainframe
 mainframe=Frame(root, borderwidth= 25,bg="ghost white")
 
@@ -176,7 +176,7 @@ def register():
 
     fieldframe=Frame(mainframe,bg="lavender")
     fieldframe.grid(row=1)
-    
+
 
     list=['first name', 'last name', 'Aadhar number', 'age', 'gender', 'choice of vaccine', 'preferred vaccination center', 'preferred vaccination slot']
     i=0
@@ -251,13 +251,26 @@ def verify():
 def verified():
     pass
 
-#     Label(mainframe, text="What are the fields you want to filter your search by?")
-#     list=['Aadhar Number', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine Type']
-#     i=0
-#     for item in list:
-#         Label(mainframe, text=item).grid(row=i, column=0)
-#         i+=1
-#
+    clear(mainframe)
+    Label(mainframe, text="What are the fields you want to filter your search by?")
+    list=['Aadhar Number', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine Type', 'State', 'District', 'Pincode', ]
+    i=0
+    for item in list:
+        Label(mainframe, text=item).grid(row=i, column=0)
+        i+=1
+
+    district=StringVar()
+    state=StringVar()
+    age_max=IntVar()
+    age_min=IntVar()
+    a=[uidai, f_name, l_name, district, state, vaccine]
+    for item in a:
+        a.set('any')
+    a=[pincode, age_min]
+    for item in a:
+        a.set(0)
+    age_max=100
+
 #     display()
 #
 #
