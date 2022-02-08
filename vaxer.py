@@ -11,7 +11,7 @@ import pickle
 import mysql.connector as sql
 
 # %% database connector
-db=sql.connect(host='localhost', user='', password='')
+db=sql.connect(host='localhost', user='ash', password='autobotsrollout')
 cursor=db.cursor()
 
 # %% create the database
@@ -247,13 +247,24 @@ def verify():
 def verified():
     pass
 
-#     Label(mainframe, text="What are the fields you want to filter your search by?")
-#     list=['Aadhar Number', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine Type']
-#     i=0
-#     for item in list:
-#         Label(mainframe, text=item).grid(row=i, column=0)
-#         i+=1
-#
+    Label(mainframe, text="What are the fields you want to filter your search by?")
+    list=['Aadhar Number', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine Type', 'State', 'District', 'Pincode', ]
+    i=0
+    for item in list:
+        Label(mainframe, text=item).grid(row=i, column=0)
+        i+=1
+
+    district=StringVar()
+    state=StringVar()
+    age_max=IntVar()
+    age_min=IntVar()
+    a=[uidai, f_name, l_name, district, state, vaccine]
+    for item in a:
+        a.set('any')
+    a=[pincode, age_max, age_min]
+    for item in a:
+        a.set(0)
+
 #     display()
 #
 #
