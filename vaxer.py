@@ -154,7 +154,7 @@ def show_my_details():
         L=Label(Lf, text=result[0][i],bg="ghost white",font= ("Bodoni MT", 14), width=25)
         Lf.grid(column=0, row=i)
         L.grid()
-        
+
         i+=1
 
     Lf=LabelFrame(mainframe, text='Vaccination Center',bg="lavender",font= ("Bodoni MT", 16,"bold"),padx=25, pady=15)
@@ -265,7 +265,7 @@ def verified():
     age_min=IntVar()
     a=[uidai, f_name, l_name, district, state, vaccine]
     for item in a:
-        a.set('any')
+        item.set('any')
     a=[pincode, age_min]
     for item in a:
         a.set(0)
