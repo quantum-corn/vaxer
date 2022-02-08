@@ -11,7 +11,6 @@ import pickle
 import mysql.connector as sql
 
 # %% database connector
-db=sql.connect(host='localhost', user='ash', password='autobotsrollout')
 cursor=db.cursor()
 
 # %% create the database
@@ -46,7 +45,8 @@ def update():
 # %% tkinter root
 root=Tk()
 root.title("Vaxer")
-root.geometry("500x500")
+root.resizable(True, True)
+scrollbar=Scrollbar(root).grid(column=10,sticky="NS")
 root.configure(bg= "ghost white")
 # %% mainframe
 mainframe=Frame(root, borderwidth= 25,bg="ghost white")
@@ -68,14 +68,15 @@ def greet():
     buttonframe=Frame(mainframe, bg="lavender")
     buttonframe.grid(row=2)
 
-    Button(buttonframe, text="Patient", command=patient, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(column=0, row=0)
-    Button(buttonframe, text="Administrator", command=admin, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(column=1, row=0)
+    Button(buttonframe, text="Patient", command=patient, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(column=0, row=0)
+    Button(buttonframe, text="Administrator", command=admin, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(column=1, row=0)
 
 # %% Patient greet window
 def patient():
     clear(mainframe)
 
     Label(mainframe, text="Welcome to Vaxer!", borderwidth=15, bg="ghost white",font= ("Bodoni MT", 28,"bold")).grid(row=0)
+    Label(mainframe, text="Register to get vaccinated", borderwidth=15, bg="ghost white",font= ("Bodoni MT", 28,"bold")).grid(row=0)
 
     fieldframe=Frame(mainframe, bg="lavender")
     fieldframe.grid(row=1)
