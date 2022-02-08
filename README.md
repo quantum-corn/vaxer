@@ -25,6 +25,7 @@ vaccination management system project for school!
 
 ## Plan:
 - [ ] email format validation
+- [ ] aadhar constraint
 - [ ] password encryption
 - [ ] password strength test
 - [ ] center search

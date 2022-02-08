@@ -250,6 +250,7 @@ def verify():
 def verified():
     pass
 
+    clear(mainframe)
     Label(mainframe, text="What are the fields you want to filter your search by?")
     list=['Aadhar Number', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine Type', 'State', 'District', 'Pincode', ]
     i=0
@@ -264,9 +265,10 @@ def verified():
     a=[uidai, f_name, l_name, district, state, vaccine]
     for item in a:
         a.set('any')
-    a=[pincode, age_max, age_min]
+    a=[pincode, age_min]
     for item in a:
         a.set(0)
+    age_max=100
 
 #     display()
 #
