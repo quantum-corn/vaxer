@@ -141,7 +141,6 @@ def log_in():
         else:
             dashboard()
 
-
 # %% Dashboard
 def dashboard():
     clear(mainframe)
@@ -166,7 +165,6 @@ def show_my_details():
         L=Label(Lf, text=result[0][i],bg="ghost white",font= ("Bodoni MT", 14), width=25)
         Lf.grid(column=0, row=i)
         L.grid()
-
         i+=1
 
     Lf=LabelFrame(mainframe, text='Vaccination Center',bg="lavender",font= ("Bodoni MT", 16,"bold"),padx=25, pady=15)
@@ -188,7 +186,6 @@ def register():
 
     fieldframe=Frame(mainframe,bg="lavender")
     fieldframe.grid(row=1)
-
 
     list=['first name', 'last name', 'Aadhar number', 'age', 'gender', 'choice of vaccine', 'preferred vaccination center', 'preferred vaccination slot']
     i=0
@@ -261,8 +258,6 @@ def verify():
 
 # %% verified
 def verified():
-    pass
-
     clear(mainframe)
     Label(mainframe, bg="lavender",font= ("Bodoni MT", 16),padx=25, pady=15, text="What are the fields you want to filter your search by?").grid(row=0)
 
@@ -288,7 +283,6 @@ def verified():
         item.set(0)
     age_max=100
 
-
     Entry(fieldframe, textvariable=uidai, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=0)
     Entry(fieldframe, textvariable=f_name, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=1)
     Entry(fieldframe, textvariable=l_name, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=2)
@@ -311,8 +305,6 @@ def verified():
 
 # %% display the records
 def display():
-    pass
-
     clear(mainframe)
     columns=('Aadhar No.',)
     table=Treeview(mainframe, columns=columns, show='heading').grid(row=0, column=0)
@@ -326,7 +318,7 @@ def display():
     for row in results:
         table.insert('', END, values=row)
 
-
+    Button(mainframe, text='Back', command=verified, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(row=1, column=0)
 
 createdb()
 update()
