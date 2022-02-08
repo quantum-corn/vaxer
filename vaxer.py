@@ -11,6 +11,7 @@ import pickle
 import mysql.connector as sql
 
 # %% database connector
+db=sql.connect(host='localhost', user='ash', password='autobotsrollout')
 cursor=db.cursor()
 
 # %% create the database
@@ -253,51 +254,54 @@ def verified():
     pass
 
     clear(mainframe)
-    Label(mainframe, text="What are the fields you want to filter your search by?")
-    list=['Aadhar Number', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine Type', 'State', 'District', 'Pincode', ]
+    Label(mainframe, bg="lavender",font= ("Bodoni MT", 16),padx=25, pady=15, text="What are the fields you want to filter your search by?").grid(row=0)
+
+    fieldframe=Frame(mainframe,bg="lavender")
+    fieldframe.grid(row=1)
+
+    list=['Aadhar Number', 'First Name', 'Last Name', 'Minimum Age', 'Maximum Age', 'Gender', 'Vaccine Type', 'State', 'District', 'Pincode']
     i=0
     for item in list:
-        Label(mainframe, text=item).grid(row=i, column=0)
+        Label(fieldframe, text=item).grid(row=i, column=0)
         i+=1
 
     district=StringVar()
     state=StringVar()
     age_max=IntVar()
     age_min=IntVar()
-    a=[uidai, f_name, l_name, district, state, vaccine]
+    pincode=IntVar()
+    a=[uidai, f_name, l_name, district, state, vaccine, gender]
     for item in a:
         item.set('any')
     a=[pincode, age_min]
     for item in a:
-        a.set(0)
+        item.set(0)
     age_max=100
 
-#     display()
-#
-#
-#     cursor.execute('SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.name, centers.address, centers.district,  centers.state, centers.pincode, slot FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE email="{0}";'.format(id))
-#     result=cursor.fetchall()
-#
-#
-#
-#     Lf=LabelFrame(mainframe, text='Vaccination Center')
-#     L=Label(Lf, text=result[0][6]+'\n'+result[0][7]+'\n'+result[0][8]+'\n'+result[0][9]+'-'+str(result[0][10]))
-#     Lf.grid(column=0, row=6)
-#     L.grid()
-#
-#     Lf=LabelFrame(mainframe, text='Vaccination Timeslot')
-#     r=int(result[0][11])-1
-#     L=Label(Lf, text='{0}:00-{1}:00'.format(9+2*r,11+2*r))
-#     Lf.grid(column=0, row=7)
-#     L.grid()
-#
-# # %% display the records
-# def display():
-#     cursor.execute('SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.name, centers.address, centers.district,  centers.state, centers.pincode, slot FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE email="{0}";'.format(id))
-#     result=cursor.fetchall()
-#     r=int(result[0][11])-1
-#     time='{0}:00-{1}:00'.format(9+2*r,11+2*r)
 
+    Entry(fieldframe, textvariable=uidai, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=0)
+    Entry(fieldframe, textvariable=f_name, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=1)
+    Entry(fieldframe, textvariable=l_name, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=2)
+    Scale(fieldframe, from_=0, to=100, variable=age_min, orient=HORIZONTAL,bg="ghost white").grid(row=3, column=1)
+    Scale(fieldframe, from_=0, to=100, variable=age_max, orient=HORIZONTAL,bg="ghost white").grid(row=4, column=1)
+    Radiobutton(fieldframe, text="Male", variable=gender, value='M',bg="ghost white").grid(row=5,column=1)
+    Radiobutton(fieldframe, text="Female", variable=gender, value='F',bg="ghost white").grid(row=5, column=2)
+    cursor.execute('SELECT name FROM vaccines')
+    result=cursor.fetchall()
+    options=[]
+    for item in result:
+        options.append(item[0])
+    OptionMenu(fieldframe, vaccine, *options).grid(row=6, column= 1)
+    states=('West Bengal',)   #fill below
+    OptionMenu(fieldframe, state, *states).grid(row=7, column= 1)
+    Entry(fieldframe, textvariable=district, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=8)
+    Entry(fieldframe, textvariable=pincode, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=9)
+
+    Button(mainframe, text='Filter', command=display, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(row=2)
+
+# %% display the records
+def display():
+    pass
 
 
 
