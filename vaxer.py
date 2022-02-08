@@ -46,13 +46,23 @@ def update():
 # %% tkinter root
 root=Tk()
 root.title("Vaxer")
-root.resizable(True, True)
+
+# %% scrollbar
 scrollbar=Scrollbar(root).grid(column=10,sticky="NS")
 root.configure(bg= "ghost white")
+
 # %% mainframe
 mainframe=Frame(root, borderwidth= 25,bg="ghost white")
-
 mainframe.grid(column=0, row=0)
+
+# %% restart button
+Button(root, text="Home", command=greet,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(row=1)
+
+# %% resizability
+root.resizable(True, True)
+root.columnconfigure(0, weight=1)
+root.columnconfigure(0, weight=1)
+Sizegrip(root).grid(row=2, sticky='SE')
 
 # %% clearing a window
 def clear(frame):
@@ -303,10 +313,20 @@ def verified():
 def display():
     pass
 
+    clear(mainframe)
+    columns=('Aadhar No.',)
+    table=Treeview(mainframe, columns=columns, show='heading').grid(row=0, column=0)
+    # for item in columns:
+    #     table.heading(item, text=item)
+
+    #scrollbars here
+
+    #QUERY and result fetching here
+
+    for row in results:
+        table.insert('', END, values=row)
 
 
-# %% restart button
-Button(root, text="Home", command=greet,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(row=1)
 
 createdb()
 update()
