@@ -120,7 +120,7 @@ def log_in():
     cursor.execute('SELECT * FROM login WHERE email="{0}";'.format(id))
     row=cursor.fetchall()
     text=StringVar()
-    msg=Label(mainframe, textvariable=text).grid(row=4)
+    msg=Label(mainframe, textvariable=text,bg="lavender",font= ("Bodoni MT", 14)).grid(row=4)
     if row==[]:
         text.set("Incorrect E-mail!")
     else:
@@ -133,13 +133,13 @@ def log_in():
 # %% Dashboard
 def dashboard():
     clear(mainframe)
-    Label(mainframe, text='Welcome '+id, bg="ghost white",font= ("Bodoni MT", 18),padx=25, pady=15).grid(row=0)
+    Label(mainframe, text='Welcome '+id, bg="ghost white",font= ("Bodoni MT", 28,"bold"),padx=25, pady=15).grid(row=0)
     cursor.execute('SELECT * FROM registration WHERE email="{0}";'.format(id))
     result=cursor.fetchall()
     if result==[]:
-        Button(mainframe, text='Register yourself', command=register,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 16)).grid(row=1)
+        Button(mainframe, text='Register yourself', command=register,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(row=1)
     else:
-        Button(mainframe, text='Show my details', command=show_my_details,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 16)).grid(row=1)
+        Button(mainframe, text='Show my details', command=show_my_details,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(row=1)
 
 def show_my_details():
     cursor.execute('SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.name, centers.address, centers.district,  centers.state, centers.pincode, slot FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE email="{0}";'.format(id))
@@ -150,21 +150,22 @@ def show_my_details():
     i=0
 
     for item in list:
-        Lf=LabelFrame(mainframe, text=item,bg="lavender",font= ("Bodoni MT", 16),)
-        L=Label(Lf, text=result[0][i],bg="ghost white")
+        Lf=LabelFrame(mainframe, text=item,bg="lavender",font= ("Bodoni MT", 16,"bold"),padx=25, pady=15)
+        L=Label(Lf, text=result[0][i],bg="ghost white",font= ("Bodoni MT", 14), width=25)
         Lf.grid(column=0, row=i)
         L.grid()
+        
         i+=1
 
-    Lf=LabelFrame(mainframe, text='Vaccination Center',bg="ghost white",font= ("Bodoni MT", 16),padx=25, pady=15)
-    L=Label(Lf, text=result[0][6]+'\n'+result[0][7]+'\n'+result[0][8]+'\n'+result[0][9]+'-'+str(result[0][10]),bg="ghost white",font= ("Bodoni MT", 14),padx=25, pady=15)
-    Lf.grid(column=0, row=6)
+    Lf=LabelFrame(mainframe, text='Vaccination Center',bg="lavender",font= ("Bodoni MT", 16,"bold"),padx=25, pady=15)
+    L=Label(Lf, text=result[0][6]+'\n'+result[0][7]+'\n'+result[0][8]+'\n'+result[0][9]+'-'+str(result[0][10]),bg="ghost white",font= ("Bodoni MT", 14),width=25)
+    Lf.grid(column=1, row=0)
     L.grid()
 
-    Lf=LabelFrame(mainframe, text='Vaccination Timeslot',bg="ghost white",font= ("Bodoni MT", 16),padx=25, pady=15)
+    Lf=LabelFrame(mainframe, text='Vaccination Timeslot',bg="lavender",font= ("Bodoni MT", 16,"bold"),padx=25, pady=15)
     r=int(result[0][11])-1
-    L=Label(Lf, text='{0}:00-{1}:00'.format(9+2*r,11+2*r),bg="ghost white",font= ("Bodoni MT", 16),padx=25, pady=15)
-    Lf.grid(column=0, row=7)
+    L=Label(Lf, text='{0}:00-{1}:00'.format(9+2*r,11+2*r),bg="ghost white",font= ("Bodoni MT", 14),width=25)
+    Lf.grid(column=1, row=1)
     L.grid()
 
 # %% Register
@@ -242,7 +243,7 @@ def admin():
 def verify():
     key='tea=PSUs'
     if password.get()!=key:
-        Label(mainframe, text='You do not have access').grid(row=3)
+        Label(mainframe, text='You do not have access',bg="lavender",font= ("Bodoni MT", 18), padx=25, pady=15).grid(row=3)
     else:
         verified()
 
@@ -287,7 +288,7 @@ def verified():
 
 
 # %% restart button
-Button(root, text="Home", command=greet,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(row=1)
+Button(root, text="Home", command=greet,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(row=1)
 
 createdb()
 update()
