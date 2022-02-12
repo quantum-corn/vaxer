@@ -7,6 +7,7 @@
 
 # %% imports
 from tkinter import *
+import tkinter.ttk as ttk
 import pickle
 import mysql.connector as sql
 
@@ -55,14 +56,11 @@ root.configure(bg= "ghost white")
 mainframe=Frame(root, borderwidth= 25,bg="ghost white")
 mainframe.grid(column=0, row=0)
 
-# %% restart button
-Button(root, text="Home", command=greet,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(row=1)
-
 # %% resizability
 root.resizable(True, True)
 root.columnconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
-Sizegrip(root).grid(row=2, sticky='SE')
+ttk.Sizegrip(root).grid(row=2, sticky='SE')
 
 # %% clearing a window
 def clear(frame):
@@ -81,6 +79,9 @@ def greet():
 
     Button(buttonframe, text="Patient", command=patient, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(column=0, row=0)
     Button(buttonframe, text="Administrator", command=admin, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(column=1, row=0)
+
+# %% restart button
+Button(root, text="Home", command=greet,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(row=1)
 
 # %% Patient greet window
 def patient():
@@ -152,6 +153,7 @@ def dashboard():
     else:
         Button(mainframe, text='Show my details', command=show_my_details,  padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,"bold")).grid(row=1)
 
+# %% registtration details
 def show_my_details():
     cursor.execute('SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.name, centers.address, centers.district,  centers.state, centers.pincode, slot FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE email="{0}";'.format(id))
     result=cursor.fetchall()
@@ -296,7 +298,7 @@ def verified():
     for item in result:
         options.append(item[0])
     OptionMenu(fieldframe, vaccine, *options).grid(row=6, column= 1)
-    states=('West Bengal',)   #fill below
+    states=('West Bengal', 'Jharkhand', 'Odisha', 'Bihar')   #fill below
     OptionMenu(fieldframe, state, *states).grid(row=7, column= 1)
     Entry(fieldframe, textvariable=district, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=8)
     Entry(fieldframe, textvariable=pincode, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=9)
@@ -307,7 +309,7 @@ def verified():
 def display():
     clear(mainframe)
     columns=('Aadhar No.',)
-    table=Treeview(mainframe, columns=columns, show='heading').grid(row=0, column=0)
+    table=ttk.Treeview(mainframe, columns=columns, show='headings').grid(row=0, column=0)
     # for item in columns:
     #     table.heading(item, text=item)
 
