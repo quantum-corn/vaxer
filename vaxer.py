@@ -313,7 +313,7 @@ def display():
     # for item in columns:
     #     table.heading(item, text=item)
 
-    #scrollbars here
+    #scrollbars here...
 
     #QUERY and result fetching here
 
