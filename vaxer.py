@@ -12,7 +12,7 @@ import pickle
 import mysql.connector as sql
 
 # %% database connector
-db=sql.connect(host='localhost', user='root', password='a1b1c1')
+db=sql.connect(host='localhost', user='ash', password='autobotsrollout')
 cursor=db.cursor()
 
 # %% create the database
@@ -308,10 +308,12 @@ def verified():
 # %% display the records
 def display():
     clear(mainframe)
-    columns=('Aadhar No.',)
-    table=ttk.Treeview(mainframe, columns=columns, show='headings').grid(row=0, column=0)
-    # for item in columns:
-    #     table.heading(item, text=item)
+    columns=('Aadhar No.', 'Email', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine', 'State', 'District', 'Pincode')
+    table=ttk.Treeview(mainframe, columns=columns, show='headings')
+    for item in columns:
+        table.heading(item, text=item)
+
+    table.grid(row=0, column=0)
 
     #scrollbars here...
 
