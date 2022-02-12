@@ -54,7 +54,7 @@ root.configure(bg= "ghost white")
 
 # %% mainframe
 mainframe=Frame(root, borderwidth= 25,bg="ghost white")
-mainframe.grid(column=0, row=0)
+mainframe.grid(column=0, row=0, sticky='nsew')
 
 # %% resizability
 root.resizable(True, True)
@@ -232,6 +232,12 @@ gender= StringVar()
 vaccine= StringVar()
 center= StringVar()
 slot = StringVar()
+district=StringVar()
+state=StringVar()
+age_max=IntVar()
+age_min=IntVar()
+pincode=StringVar()
+center_name=StringVar()
 
 # %% registration processing
 def fetch():
@@ -266,24 +272,17 @@ def verified():
     fieldframe=Frame(mainframe,bg="lavender")
     fieldframe.grid(row=1)
 
-    list=['Aadhar Number', 'First Name', 'Last Name', 'Minimum Age', 'Maximum Age', 'Gender', 'Vaccine Type', 'State', 'District', 'Pincode']
+    list=['Aadhar Number', 'First Name', 'Last Name', 'Minimum Age', 'Maximum Age', 'Gender', 'Vaccine Type', 'Center Code', 'Center Name', 'State', 'District', 'Pincode']
     i=0
     for item in list:
         Label(fieldframe, text=item).grid(row=i, column=0)
         i+=1
 
-    district=StringVar()
-    state=StringVar()
-    age_max=IntVar()
-    age_min=IntVar()
-    pincode=IntVar()
-    a=[uidai, f_name, l_name, district, state, vaccine, gender]
+    a=[uidai, f_name, l_name, district, state, vaccine, gender, center, center_name, pincode]
     for item in a:
         item.set('any')
-    a=[pincode, age_min]
-    for item in a:
-        item.set(0)
-    age_max=100
+    age_min.set(0)
+    age_max.set(100)
 
     Entry(fieldframe, textvariable=uidai, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=0)
     Entry(fieldframe, textvariable=f_name, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=1)
@@ -298,31 +297,49 @@ def verified():
     for item in result:
         options.append(item[0])
     OptionMenu(fieldframe, vaccine, *options).grid(row=6, column= 1)
+    Entry(fieldframe, textvariable=center, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=7)
+    Entry(fieldframe, textvariable=center_name, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=8)
     states=('West Bengal', 'Jharkhand', 'Odisha', 'Bihar')   #fill below
-    OptionMenu(fieldframe, state, *states).grid(row=7, column= 1)
-    Entry(fieldframe, textvariable=district, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=8)
-    Entry(fieldframe, textvariable=pincode, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=9)
+    OptionMenu(fieldframe, state, *states).grid(row=9, column= 1)
+    Entry(fieldframe, textvariable=district, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=10)
+    Entry(fieldframe, textvariable=pincode, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=11)
 
     Button(mainframe, text='Filter', command=display, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(row=2)
 
 # %% display the records
 def display():
     clear(mainframe)
-    columns=('Aadhar No.', 'Email', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine', 'State', 'District', 'Pincode')
+    columns=('Aadhar No.', 'First Name', 'Last Name', 'Age', 'Gender', 'Vaccine', 'Center Code', 'Center Name', 'State', 'District', 'Pincode')
     table=ttk.Treeview(mainframe, columns=columns, show='headings')
     for item in columns:
         table.heading(item, text=item)
 
     table.grid(row=0, column=0)
 
-    #scrollbars here...
+    # cursor.execute('TRUNCATE TABLE records;')
+    # cursor.execute('INSERT INTO records SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.center_id, centers.name, centers.state, centers.district, centers.pincode FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE age BETWEEN {0} AND {1};'.format(age_min.get(), age_max.get()))
+    cursor.execute('SELECT * FROM registration;')
 
-    #QUERY and result fetching here
+    # a=[uidai, f_name, l_name, district, state, vaccine, gender, center, center_name, pincode]
+    # c_name=['uidai', 'first_name', 'last_name', 'gender', 'vaccine_name', 'center_id', 'center_name', 'center_state', 'center_district', 'center_pincode']
+    #
+    # for item in a:
+    #     k=item.get()
+    #     if k != 'any':
+    #         cursor.execute('DELETE FROM records WHERE {0} IS NOT {1};'.format(c_name[a.index(item)], k))
 
-    for row in results:
+    result=cursor.fetchall()
+
+    for row in result:
         table.insert('', END, values=row)
 
-    Button(mainframe, text='Back', command=verified, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(row=1, column=0)
+    yscroll=Scrollbar(mainframe, orient=VERTICAL, command=table.yview)
+    xscroll=Scrollbar(mainframe, orient=HORIZONTAL, command=table.xview)
+    table.configure(yscroll=yscroll.set, xscroll=xscroll.set)
+    yscroll.grid(row=0, column=1, sticky='ns')
+    xscroll.grid(row=1, column=0, sticky='ew')
+
+    Button(mainframe, text='Back', command=verified, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(row=2, column=0)
 
 createdb()
 update()
