@@ -11,7 +11,7 @@ import pickle
 import mysql.connector as sql
 
 # %% database connector
-db=sql.connect(host='localhost', user='ash', password='autobotsrollout')
+db=sql.connect(host='localhost', user='root', password='a1b1c1')
 cursor=db.cursor()
 
 # %% create the database
