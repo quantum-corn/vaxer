@@ -316,18 +316,18 @@ def display():
 
     table.grid(row=0, column=0)
 
-    # cursor.execute('TRUNCATE TABLE records;')
-    # cursor.execute('INSERT INTO records SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.center_id, centers.name, centers.state, centers.district, centers.pincode FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE age BETWEEN {0} AND {1};'.format(age_min.get(), age_max.get()))
-    cursor.execute('SELECT * FROM registration;')
+    cursor.execute('TRUNCATE TABLE records;')
+    cursor.execute('INSERT INTO records SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.center_id, centers.name, centers.state, centers.district, centers.pincode FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE age BETWEEN {0} AND {1};'.format(age_min.get(), age_max.get()))
 
-    # a=[uidai, f_name, l_name, district, state, vaccine, gender, center, center_name, pincode]
-    # c_name=['uidai', 'first_name', 'last_name', 'gender', 'vaccine_name', 'center_id', 'center_name', 'center_state', 'center_district', 'center_pincode']
-    #
-    # for item in a:
-    #     k=item.get()
-    #     if k != 'any':
-    #         cursor.execute('DELETE FROM records WHERE {0} IS NOT {1};'.format(c_name[a.index(item)], k))
+    a=[uidai, f_name, l_name, district, state, vaccine, gender, center, center_name, pincode]
+    c_name=['uidai', 'first_name', 'last_name', 'gender', 'vaccine_name', 'center_id', 'center_name', 'center_state', 'center_district', 'center_pincode']
 
+    for item in a:
+        k=item.get()
+        if k != 'any':
+            cursor.execute('DELETE FROM records WHERE NOT {0}="{1}";'.format(c_name[a.index(item)], k))
+
+    cursor.execute('SELECT * FROM records;')
     result=cursor.fetchall()
 
     for row in result:
