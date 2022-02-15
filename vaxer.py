@@ -12,7 +12,7 @@ import pickle
 import mysql.connector as sql
 
 # %% database connector
-db=sql.connect(host='localhost', user='ash', password='autobotsrollout')
+db=sql.connect(host='localhost', user='root', password='a1b1c1')
 cursor=db.cursor()
 
 # %% create the database
@@ -254,7 +254,7 @@ def admin():
     clear(mainframe)
     Label(mainframe, text='Enter password to verify access',bg="lavender",font= ("Bodoni MT", 18), padx=25, pady=15).grid(row=0)
     Entry(mainframe, textvariable=password, show="\u2022",bg="ghost white",bd=3, relief=SUNKEN).grid(row=1)
-    Button(mainframe, text="Verify", command=verify,padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(row=2)
+    Button(mainframe, text="Verify", command=verify,padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18, "bold")).grid(row=2)
 
 # %% verify
 def verify():
@@ -269,13 +269,13 @@ def verified():
     clear(mainframe)
     Label(mainframe, bg="lavender",font= ("Bodoni MT", 16),padx=25, pady=15, text="What are the fields you want to filter your search by?").grid(row=0)
 
-    fieldframe=Frame(mainframe,bg="lavender")
+    fieldframe=Frame(mainframe,bg="ghost white",width=25)
     fieldframe.grid(row=1)
 
     list=['Aadhar Number', 'First Name', 'Last Name', 'Minimum Age', 'Maximum Age', 'Gender', 'Vaccine Type', 'Center Code', 'Center Name', 'State', 'District', 'Pincode']
     i=0
     for item in list:
-        Label(fieldframe, text=item).grid(row=i, column=0)
+        Label(fieldframe, text=item,bg="lavender").grid(row=i, column=0)
         i+=1
 
     a=[uidai, f_name, l_name, district, state, vaccine, gender, center, center_name, pincode]
@@ -304,7 +304,7 @@ def verified():
     Entry(fieldframe, textvariable=district, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=10)
     Entry(fieldframe, textvariable=pincode, bg="ghost white", bd=3, relief=SUNKEN).grid(column=1, row=11)
 
-    Button(mainframe, text='Filter', command=display, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(row=2)
+    Button(mainframe, text='Filter', command=display, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18,  "bold")).grid(row=2)
 
 # %% display the records
 def display():
@@ -339,7 +339,7 @@ def display():
     yscroll.grid(row=0, column=1, sticky='ns')
     xscroll.grid(row=1, column=0, sticky='ew')
 
-    Button(mainframe, text='Back', command=verified, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(row=2, column=0)
+    Button(mainframe, text='Back', command=verified, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18, "bold")).grid(row=2, column=0)
 
 createdb()
 update()
