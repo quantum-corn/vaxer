@@ -46,6 +46,7 @@ def update():
 
 # %% tkinter root
 root=Tk()
+root.geometry("1650x1000")
 root.title("Vaxer")
 
 # %% scrollbar
@@ -54,7 +55,7 @@ root.configure(bg= "ghost white")
 
 # %% mainframe
 mainframe=Frame(root, borderwidth= 25,bg="ghost white")
-mainframe.grid(column=0, row=0, sticky='nsew')
+mainframe.grid(column=0, row=0)
 
 # %% resizability
 root.resizable(True, True)
@@ -313,8 +314,9 @@ def display():
     table=ttk.Treeview(mainframe, columns=columns, show='headings')
     for item in columns:
         table.heading(item, text=item)
+        table.column(item, stretch=True, width=150)
 
-    table.grid(row=0, column=0)
+    table.grid(row=0, column=0, sticky='nsew')
 
     cursor.execute('TRUNCATE TABLE records;')
     cursor.execute('INSERT INTO records SELECT uidai, first_name, last_name, age, gender, vaccines.name, centers.center_id, centers.name, centers.state, centers.district, centers.pincode FROM registration INNER JOIN vaccines ON registration.vaccine=vaccines.vacc_id INNER JOIN centers ON registration.center=centers.center_id WHERE age BETWEEN {0} AND {1};'.format(age_min.get(), age_max.get()))
@@ -332,12 +334,6 @@ def display():
 
     for row in result:
         table.insert('', END, values=row)
-
-    yscroll=Scrollbar(mainframe, orient=VERTICAL, command=table.yview)
-    xscroll=Scrollbar(mainframe, orient=HORIZONTAL, command=table.xview)
-    table.configure(yscroll=yscroll.set, xscroll=xscroll.set)
-    yscroll.grid(row=0, column=1, sticky='ns')
-    xscroll.grid(row=1, column=0, sticky='ew')
 
     Button(mainframe, text='Back', command=verified, padx=30, pady=5, bg="lavender",bd=3, relief=RAISED,font= ("Bodoni MT", 18)).grid(row=2, column=0)
 
