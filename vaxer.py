@@ -46,7 +46,7 @@ def update():
 
 # %% tkinter root
 root=Tk()
-root.geometry("1540x1000")
+root.geometry("1540x800")
 root.title("Vaxer")
 
 # %% scrollbar
