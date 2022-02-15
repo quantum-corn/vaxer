@@ -12,7 +12,7 @@ import pickle
 import mysql.connector as sql
 
 # %% database connector
-db=sql.connect(host='localhost', user='root', password='a1b1c1')
+db=sql.connect(host='localhost', user='ash', password='autobotsrollout')
 cursor=db.cursor()
 
 # %% create the database
@@ -46,7 +46,7 @@ def update():
 
 # %% tkinter root
 root=Tk()
-root.geometry("1650x1000")
+root.geometry("1540x1000")
 root.title("Vaxer")
 
 # %% scrollbar
@@ -314,7 +314,7 @@ def display():
     table=ttk.Treeview(mainframe, columns=columns, show='headings')
     for item in columns:
         table.heading(item, text=item)
-        table.column(item, stretch=True, width=150)
+        table.column(item, stretch=True, width=140)
 
     table.grid(row=0, column=0, sticky='nsew')
 

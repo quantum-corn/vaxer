@@ -10,15 +10,15 @@ vaccination management system project for school!
 - [x] database
   - [x] basic structure
   - [x] data entries
-- [ ] gui
+- [x] gui
   - [x] basics
-  - [ ] visual refinements
-    - [ ] geometry
-    - [ ] resizing
-    - [ ] padding
-    - [ ] font
-    - [ ] colors
-- [ ] maincode
+  - [x] visual refinements
+    - [x] geometry
+    - [x] resizing
+    - [x] padding
+    - [x] font
+    - [x] colors
+- [x] maincode
   - [x] manage gui
   - [x] data entry for reference data tables
   - [x] database management
